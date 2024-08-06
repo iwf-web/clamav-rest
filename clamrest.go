@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"strconv"
 
 	"github.com/dutchcoders/go-clamd"
 	"github.com/prometheus/client_golang/prometheus"
@@ -51,6 +52,43 @@ func clamversion(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 	}
+}
+
+
+func healthcheck(w http.ResponseWriter, r *http.Request) {
+	maxAgeHours, err := strconv.ParseInt(opts["CLAMD_MAX_SIGNATURE_AGE"], 10, 64);
+	c := clamd.NewClamd(opts["CLAMD_PORT"])
+
+	version, err := c.Version()
+	if err != nil {
+		http.Error(w, "", http.StatusServiceUnavailable)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	for version_string := range version {
+		if strings.HasPrefix(version_string.Raw, "ClamAV ") {
+			version_values := strings.Split(strings.Replace(version_string.Raw, "ClamAV ", "", 1), "/")
+			if len(version_values) == 3 {
+				signatureDateStr := version_values[2]
+				signatureDate, err := time.Parse("Mon Jan 2 15:04:05 2006", signatureDateStr)
+				if err != nil {
+					http.Error(w, "", http.StatusInternalServerError)
+					return
+				}
+
+				if time.Since(signatureDate).Hours() > float64(maxAgeHours) {
+					http.Error(w, "", 420)
+					return
+				}
+
+				w.WriteHeader(http.StatusOK)
+				return
+			}
+		}
+	}
+
+	http.Error(w, "Unexpected response format", http.StatusInternalServerError)
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -270,6 +308,7 @@ func main() {
 	http.HandleFunc("/scanPath", scanPathHandler)
 	http.HandleFunc("/scanHandlerBody", scanHandlerBody)
   	http.HandleFunc("/version", clamversion)
+  	http.HandleFunc("/healthcheck", healthcheck)
 	http.HandleFunc("/", home)
 
 	// Prometheus metrics

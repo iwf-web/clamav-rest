@@ -1,4 +1,4 @@
-FROM golang:alpine3.19 as build
+FROM golang:alpine3.20 as build
 
 # Update libraries
 RUN apk update && apk upgrade
@@ -10,7 +10,7 @@ WORKDIR /go/src
 ADD . /go/src/clamav-rest/
 RUN cd /go/src/clamav-rest && go mod download github.com/dutchcoders/go-clamd@latest && go mod init clamav-rest && go mod tidy && go mod vendor && go build -v
 
-FROM alpine:3.19
+FROM alpine:3.20
 
 # Copy compiled clamav-rest binary from build container to production container
 COPY --from=build /go/src/clamav-rest/clamav-rest /usr/bin/
@@ -63,6 +63,7 @@ ENV MAX_ICONSPE=100
 ENV PCRE_MATCHLIMIT=100000
 ENV PCRE_RECMATCHLIMIT=2000
 ENV SIGNATURE_CHECKS=2
+ENV CLAMD_MAX_SIGNATURE_AGE=24
 
 USER clamav
 

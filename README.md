@@ -154,6 +154,15 @@ Content-Length: 60
 { "Status": "FOUND", "Description": "Win.Test.EICAR_HDB-1" }
 ```
 
+## Healthcheck
+
+The /healthcheck endpoint returns the following status codes without detailed information:
+
+- 200: ClamD is reachable and signatures are not older than CLAMD_MAX_SIGNATURE_AGE hours
+- 420: ClamD is reachable and signatures are too old
+- 500: an internal error happened - this usually means there's something wrong with ClamD
+- 503: ClamD is not reachable
+
 
 # Configuration
 
@@ -161,22 +170,23 @@ Content-Length: 60
 
 Below is the complete list of available options that can be used to customize your installation.
 
-| Parameter | Description |
-|-----------|-------------|
-| `MAX_SCAN_SIZE` | Amount of data scanned for each file - Default `100M` |
-| `MAX_FILE_SIZE` | Don't scan files larger than this size - Default `25M` |
-| `MAX_RECURSION` | How many nested archives to scan - Default `16` |
-| `MAX_FILES` | Number of files to scan withn archive - Default `10000` |
-| `MAX_EMBEDDEDPE` | Maximum file size for embedded PE - Default `10M` |
-| `MAX_HTMLNORMALIZE` | Maximum size of HTML to normalize - Default `10M` |
-| `MAX_HTMLNOTAGS` | Maximum size of Normlized HTML File to scan- Default `2M` |
-| `MAX_SCRIPTNORMALIZE` | Maximum size of a Script to normalize - Default `5M` |
-| `MAX_ZIPTYPERCG` | Maximum size of ZIP to reanalyze type recognition - Default `1M` |
-| `MAX_PARTITIONS` | How many partitions per Raw disk to scan - Default `50` |
-| `MAX_ICONSPE` | How many Icons in PE to scan - Default `100` |
-| `PCRE_MATCHLIMIT` | Maximum PCRE Match Calls - Default `100000` |
-| `PCRE_RECMATCHLIMIT` | Maximum Recursive Match Calls to PCRE - Default `2000` |
-| `SIGNATURE_CHECKS` | Check times per day for a new database signature. Must be between 1 and 50. - Default `2` |
+| Parameter                 | Description                                                                                               |
+|---------------------------|-----------------------------------------------------------------------------------------------------------|
+| `MAX_SCAN_SIZE`           | Amount of data scanned for each file - Default `100M`                                                     |
+| `MAX_FILE_SIZE`           | Don't scan files larger than this size - Default `25M`                                                    |
+| `MAX_RECURSION`           | How many nested archives to scan - Default `16`                                                           |
+| `MAX_FILES`               | Number of files to scan withn archive - Default `10000`                                                   |
+| `MAX_EMBEDDEDPE`          | Maximum file size for embedded PE - Default `10M`                                                         |
+| `MAX_HTMLNORMALIZE`       | Maximum size of HTML to normalize - Default `10M`                                                         |
+| `MAX_HTMLNOTAGS`          | Maximum size of Normlized HTML File to scan- Default `2M`                                                 |
+| `MAX_SCRIPTNORMALIZE`     | Maximum size of a Script to normalize - Default `5M`                                                      |
+| `MAX_ZIPTYPERCG`          | Maximum size of ZIP to reanalyze type recognition - Default `1M`                                          |
+| `MAX_PARTITIONS`          | How many partitions per Raw disk to scan - Default `50`                                                   |
+| `MAX_ICONSPE`             | How many Icons in PE to scan - Default `100`                                                              |
+| `PCRE_MATCHLIMIT`         | Maximum PCRE Match Calls - Default `100000`                                                               |
+| `PCRE_RECMATCHLIMIT`      | Maximum Recursive Match Calls to PCRE - Default `2000`                                                    |
+| `SIGNATURE_CHECKS`        | Check times per day for a new database signature. Must be between 1 and 50. - Default `2`                 |
+| `CLAMD_MAX_SIGNATURE_AGE` | The age of the signatures in hours allowed for a OK response to the /healthcheck endpoint. - Default `24` |
 
 ## Networking
 
