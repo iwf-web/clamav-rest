@@ -2,7 +2,7 @@
 #set -x
 
 DOCKER_NAME=iwfwebsolutions
-BUILD_NAME=nginx
+BUILD_NAME=clamav-rest
 LATEST_TAG=latest
 GIT_REPO=https://github.com/iwf-web/clamav-rest.git
 CODE_BASE=./code
