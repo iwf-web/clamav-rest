@@ -187,6 +187,9 @@ Below is the complete list of available options that can be used to customize yo
 | `PCRE_RECMATCHLIMIT`      | Maximum Recursive Match Calls to PCRE - Default `2000`                                                    |
 | `SIGNATURE_CHECKS`        | Check times per day for a new database signature. Must be between 1 and 50. - Default `2`                 |
 | `CLAMD_MAX_SIGNATURE_AGE` | The age of the signatures in hours allowed for a OK response to the /healthcheck endpoint. - Default `24` |
+| `PROXY_SERVER`            | The proxy server to use for signature updates (freshclam) - full URL inclusive scheme                     |
+| `PROXY_PORT`              | The proxy port to use for signature updates (freshclam)                                                   |
+
 
 ## Networking
 
