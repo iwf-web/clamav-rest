@@ -1,3 +1,6 @@
+# v1.0.3
+- fix freshclam update notification (was using wrong config file)
+
 # v1.0.2
 - fix typo
 
