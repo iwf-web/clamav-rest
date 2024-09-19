@@ -28,7 +28,7 @@ if [ -n "$PROXY_SERVER" ]; then
   sed -i 's~^#HTTPProxyServer .*~HTTPProxyServer '"$PROXY_SERVER"'~g' /clamav/etc/freshclam.conf
 
   if [ -n "$PROXY_PORT" ]; then
-      sed -i 's/^#HTTPProxyPort .*$/HTTPProxyPort '"$PROXY_PORT"'/g' /clamav/etc/reshclam.conf
+      sed -i 's/^#HTTPProxyPort .*$/HTTPProxyPort '"$PROXY_PORT"'/g' /clamav/etc/freshclam.conf
   fi
 fi
 
