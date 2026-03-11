@@ -7,7 +7,7 @@ LATEST_TAG=latest
 GIT_REPO=https://github.com/iwf-web/clamav-rest.git
 CODE_BASE=./code
 DEF_PUSHDOCKERREGISTRY=0
-DEF_BRANCH=feature/iwf
+DEF_BRANCH=iwf-build
 
 function display_help() {
   echo -e "\nUsage: $0 -b|--branch branch [-pr | --pushregistry] [-h|--help]\n"
